@@ -5,6 +5,6 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface OrderRepository  extends CrudRepository<OrderEntity, Long> {
     //CatalogEntity findByProductId(String productId);
-    OrderEntity findByOrderId(String orderId);
-    Iterable<OrderEntity> findById(String userId);
+    OrderEntity findByUserId(String orderId);
+    Iterable<OrderEntity> findByOrderId(String userId);
 }
