@@ -39,15 +39,15 @@ public class OrderController {
         orderDto.setUserId(userId);
         OrderDto createOrder = orderService.createOrder(orderDto);
 
-        ResponseOrder responseUser = mapper.map(createOrder, ResponseOrder.class);
+        ResponseOrder responseOrder = mapper.map(createOrder, ResponseOrder.class);
 
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(responseUser);
+        return ResponseEntity.status(HttpStatus.CREATED).body(responseOrder);
 
     }
 
     @GetMapping("/{userId}/orders")
-    public ResponseEntity<List<ResponseOrder>> getOrder(@PathVariable("userId") String userId){
+    public ResponseEntity<List<ResponseOrder>> getOrders(@PathVariable("userId") String userId){
         Iterable<OrderEntity> orderList = orderService.getOrderByUserId(userId);
 
         List<ResponseOrder> result = new ArrayList<>();
@@ -57,5 +57,19 @@ public class OrderController {
         });
 
         return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+
+    @GetMapping("/{orderId}/order")
+    public ResponseEntity<ResponseOrder> getOrder(@PathVariable("orderId") String orderId){
+        OrderDto orderDetails = orderService.getOrderByOrderId(orderId);
+
+        ModelMapper mapper = new ModelMapper();
+        mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+        OrderDto orderDto = mapper.map(orderDetails, OrderDto.class);
+
+        ResponseOrder responseOrder = mapper.map(orderDto, ResponseOrder.class);
+
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(responseOrder);
     }
 }
