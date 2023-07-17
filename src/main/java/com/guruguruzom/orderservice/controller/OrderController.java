@@ -59,17 +59,17 @@ public class OrderController {
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
-    @GetMapping("/{orderId}/order")
-    public ResponseEntity<ResponseOrder> getOrder(@PathVariable("orderId") String orderId){
-        OrderDto orderDetails = orderService.getOrderByOrderId(orderId);
-
-        ModelMapper mapper = new ModelMapper();
-        mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
-        OrderDto orderDto = mapper.map(orderDetails, OrderDto.class);
-
-        ResponseOrder responseOrder = mapper.map(orderDto, ResponseOrder.class);
-
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(responseOrder);
-    }
+//    @GetMapping("/{orderId}/order")
+//    public ResponseEntity<ResponseOrder> getOrder(@PathVariable("orderId") String orderId){
+//        OrderDto orderDetails = orderService.getOrderByOrderId(orderId);
+//
+//        ModelMapper mapper = new ModelMapper();
+//        mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+//        OrderDto orderDto = mapper.map(orderDetails, OrderDto.class);
+//
+//        ResponseOrder responseOrder = mapper.map(orderDto, ResponseOrder.class);
+//
+//
+//        return ResponseEntity.status(HttpStatus.CREATED).body(responseOrder);
+//    }
 }
