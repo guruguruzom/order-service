@@ -2,6 +2,7 @@ package com.guruguruzom.orderservice.controller;
 
 import com.guruguruzom.orderservice.dto.OrderDto;
 import com.guruguruzom.orderservice.entity.OrderEntity;
+import com.guruguruzom.orderservice.messagequeue.KafkaProducer;
 import com.guruguruzom.orderservice.service.OrderService;
 import com.guruguruzom.orderservice.vo.RequestOrder;
 import com.guruguruzom.orderservice.vo.ResponseOrder;
@@ -23,6 +24,7 @@ public class OrderController {
 
     private final Environment env;
     private final OrderService orderService;
+    private final KafkaProducer kafkaProducer;
 
     @GetMapping("/health-check")
     public String status(){
@@ -35,13 +37,15 @@ public class OrderController {
         ModelMapper mapper = new ModelMapper();
         mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
 
+        /* jpa */
         OrderDto orderDto = mapper.map(orderDetails, OrderDto.class);
         orderDto.setUserId(userId);
         OrderDto createOrder = orderService.createOrder(orderDto);
 
         ResponseOrder responseOrder = mapper.map(createOrder, ResponseOrder.class);
 
-
+        /* send this order to the kafka */
+        kafkaProducer.send("example-catalog-topic", orderDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(responseOrder);
 
     }
