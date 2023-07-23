@@ -25,6 +25,12 @@ spring:
       ddl-auto: create-drop
     show-sql: true
     generate-ddl: true
+  zipkin:
+    base-user: http://localhost:9411
+    enabled: true
+  sleuth:
+    sampler:
+      probability: 1.0
 
 eureka:
   instance:
